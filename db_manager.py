@@ -1,12 +1,7 @@
 import psycopg2
 
-from config import config
-
-dbname = 'db_manager'
-params = open("database.ini", "r")
 class DBManager:
     """Класс для работы с БД"""
-
 
     def get_companies_and_vacancies_count(self, cur):
         """Получает список всех компаний и количество вакансий у каждой компании"""
@@ -51,14 +46,14 @@ class DBManager:
         cur.execute("DROP TABLE vacancies;"
                     "DROP TABLE employers")
 
-    def create_db(self):
+    def create_db(self, params, db_name):
         """Создает Базу Данных"""
 
         conn = psycopg2.connect(dbname='db_manager', **params)
         conn.autocommit = True
         cur = conn.cursor()
 
-        cur.execute(f"DROP DATABASE {dbname}")
-        cur.execute(f"CREATE DATABASE {dbname}")
+        cur.execute(f"DROP DATABASE {db_name}")
+        cur.execute(f"CREATE DATABASE {db_name}")
 
         conn.close()

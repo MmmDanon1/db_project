@@ -9,10 +9,10 @@ open_vacancies int
 CREATE TABLE vacancies
 (
 vacancy_id int PRIMARY KEY
+employer_id int
 vacancy_name text
 salary_from int
 salary_to int
 url text
-employer_id int
-);
+)
 
