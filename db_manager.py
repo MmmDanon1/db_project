@@ -8,34 +8,48 @@ class DBManager:
     """Класс для работы с БД"""
 
 
-    def get_companies_and_vacancies_count(self):
+    def get_companies_and_vacancies_count(self, cur):
         """Получает список всех компаний и количество вакансий у каждой компании"""
-        pass
 
-    def get_all_vacancies(self):
+        cur.execute("SELECT company_name, open_vacancies FROM employers")
+
+    def get_all_vacancies(self, cur):
         """Получает список всех вакансий с указанием названия компании, названия вакансии и зарплаты и ссылки на вакансию"""
-        pass
 
+        cur.execute("SELECT vacancies.vacancy_name, employers.company_name, vacancies.salary_from, vacancies.salary_to, vacancies.url FROM vacancies"
+                    "JOIN employers USING(employer_id)"
+                    )
 
-    def get_avg_salary(self):
+    def get_avg_salary(self, cur):
         """Получает среднюю зарплату по вакансиям"""
-        pass
 
-    def get_vacancies_with_higher_salary(self):
+        cur.execute("SELECT AVG(salary_from), AVG(salary_to) FROM vacancies")
+
+    def get_vacancies_with_higher_salary(self, cur):
         """Получает список всех вакансий, у которых зарплата выше средней по всем вакансиям"""
-        pass
 
-    def get_vacancies_with_keyword(self, keyword):
+        cur.execute("SELECT * FROM vacancies"
+                    "WHERE salary_from > AVG(salary_from) AND salary_to > AVG(salary_to)"
+                    )
+
+    def get_vacancies_with_keyword(self, cur, keyword):
         """Получает список всех вакансий, в названии которых содержатся переданные в метод слова"""
-        pass
 
-    def create_tables(self):
+        cur.execute("SELECT * FROM vacancies"
+                    f"WHERE vacancy_name LIKE '{keyword}%' or LIKE '%{keyword}' or LIKE '%{keyword}%')"
+                    )
+
+    def create_tables(self, cur, script_file):
         """Создает таблицу"""
-        pass
 
-    def drop_tables(self):
+        with open(script_file, "r") as f:
+            cur.execute(f.read())
+
+    def drop_tables(self, cur):
         """Удаляет таблицу"""
-        pass
+
+        cur.execute("DROP TABLE vacancies;"
+                    "DROP TABLE employers")
 
     def create_db(self):
         """Создает Базу Данных"""
