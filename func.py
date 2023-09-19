@@ -1,4 +1,5 @@
 import json
+from pprint import pprint
 
 import requests
 
@@ -49,14 +50,36 @@ def get_hh_data(employer_id):
     for item in response_json['items']:
         list_vacancy.append(item)
     return list_vacancy
+# list_vacancy = []
+# ll_ = get_hh_data(['4931636', '2603468', '4679771', '3027217', '2690637', '3896407', '5110456', '1048376', '8932785', '1083682'])
+# for lll_ in ll_:
+#     with open('vacancy.json', 'w', encoding='utf-8') as f:
+#         json.dump(list_vacancy, f)
+#     with open('vacancy.json', 'r', encoding='utf-8') as f:
+#         json.load(f)
+#         list_vacancy.append(lll_)
+#     with open('vacancy.json', 'w', encoding='utf-8') as f:
+#         json.dump(list_vacancy, f)
+# print(len(list_vacancy))
+# print(len(ll_))
 
 
-def add_json_vacancy(list_vacancy):
+def add_json_vacancy(employer_ids):
     """
     метод довавления вакансий в json-файл
     """
-    with open('vacancy.json', 'w', encoding='utf-8') as f:
-        json.dump(list_vacancy, f)
+    list_vacancies = []
+    for employer_id in employer_ids:
+        with open('vacancy.json', 'w', encoding='utf-8') as f:
+            json.dump(list_vacancies, f)
+        with open('vacancy.json', 'r', encoding='utf-8') as f:
+            json.load(f)
+            list_vacancies.append(employer_id)
+        with open('vacancy.json', 'w', encoding='utf-8') as f:
+            json.dump(list_vacancies, f)
+    return list_vacancies
+
+
 
 def delete_json():
     open('vacancy.json', 'w').close()
