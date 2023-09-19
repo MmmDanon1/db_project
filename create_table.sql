@@ -2,9 +2,7 @@ CREATE TABLE employers
 (
 employer_id int PRIMARY KEY
 name varchar(50)
-city varchar(50)
-address varchar(100)
-description text
+vacancies_url text
 );
 
 CREATE TABLE vacancies
